@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { MapPin, Briefcase, Eye, Share2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 interface Job {
   id: number;
@@ -37,6 +38,18 @@ function formatPostedDate(isoDate) {
 
 
 const JobCard = ({ job, index }: JobCardProps) => {
+  const handleShare = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const url = `${window.location.origin}/job/${job.id}`;
+    try {
+      await navigator.clipboard.writeText(url);
+      toast.success("Link copied to clipboard!");
+    } catch {
+      toast.error("Failed to copy link");
+    }
+  };
+
   return (
     <Link to={`/job/${job.id}`}
     className="block mb-2">
@@ -93,7 +106,7 @@ const JobCard = ({ job, index }: JobCardProps) => {
                   variant="ghost" 
                   size="sm" 
                   className="h-7 px-2 text-muted-foreground hover:text-foreground"
-                  onClick={(e) => e.preventDefault()}
+                  onClick={handleShare}
                 >
                   <Share2 className="w-3.5 h-3.5" />
                 </Button>

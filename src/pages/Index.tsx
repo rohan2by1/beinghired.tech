@@ -40,11 +40,29 @@ const Index = () => {
         job.company.toLowerCase().includes(searchQuery.toLowerCase());
 
       const matchesJobType = jobType === "" || job.type === jobType;
-      const matchesBatch = batch === "" || job.batch === batch;
-      const matchesLocation =
-        location === "" ||
-        (job.location &&
-          job.location.toLowerCase().includes(location.toLowerCase()));
+
+      // Batch matching: support selection like "2023 graduates" and job.batch values like "2025 / 2024 / 2023"
+      const matchesBatch = (() => {
+        if (batch === "") return true;
+        if (!job.batch) return false;
+        const yearMatch = batch.match(/(\d{4})/);
+        if (yearMatch) {
+          return job.batch.includes(yearMatch[1]);
+        }
+        // fallback: substring match (case-insensitive)
+        return job.batch.toLowerCase().includes(batch.toLowerCase());
+      })();
+
+      const matchesLocation = (() => {
+        if (location === "") return true;
+        if (!job.location) return false;
+        const loc = location.toLowerCase();
+        const jobLoc = job.location.toLowerCase();
+        if (jobLoc.includes(loc)) return true;
+        // Treat 'Remote' selection as match for 'work from home' descriptions
+        if (loc === "remote" && jobLoc.includes("work from home")) return true;
+        return false;
+      })();
 
       return matchesSearch && matchesJobType && matchesBatch && matchesLocation;
     });
