@@ -10,39 +10,39 @@ import {
 
 const Footer = () => {
   const jobsByType = [
-    { label: "Full time jobs", href: "#" },
-    { label: "Internships", href: "#" },
+    { label: "Full time jobs", href: "/?type=Full time" },
+    { label: "Internships", href: "/?type=Internship" },
   ];
 
   const jobsByCategory = [
-    { label: "Jobs in Frontend development", href: "#" },
-    { label: "Jobs in Backend development", href: "#" },
-    { label: "Jobs in App development", href: "#" },
-    { label: "Jobs in Data analytics", href: "#" },
-    { label: "Jobs in Fullstack development", href: "#" },
-    { label: "Jobs in Web development", href: "#" },
-    { label: "Jobs in Quality analyst (QA)", href: "#" },
+    { label: "Jobs in Frontend development", href: "/?search=Frontend" },
+    { label: "Jobs in Backend development", href: "/?search=Backend" },
+    { label: "Jobs in App development", href: "/?search=App" },
+    { label: "Jobs in Data analytics", href: "/?search=Data analytics" },
+    { label: "Jobs in Fullstack development", href: "/?search=Fullstack" },
+    { label: "Jobs in Web development", href: "/?search=Web" },
+    { label: "Jobs in Quality analyst (QA)", href: "/?search=QA" },
   ];
 
   const jobsByLocation = [
-    { label: "Remote Jobs", href: "#" },
-    { label: "Hybrid Jobs", href: "#" },
-    { label: "Jobs in Bengaluru", href: "#" },
-    { label: "Jobs in Noida", href: "#" },
-    { label: "Jobs in Gurgaon", href: "#" },
-    { label: "Jobs in Delhi", href: "#" },
-    { label: "Jobs in Pune", href: "#" },
-    { label: "Jobs in Mumbai", href: "#" },
-    { label: "Jobs in Hyderabad", href: "#" },
+    { label: "Remote Jobs", href: "/?location=Remote" },
+    { label: "Hybrid Jobs", href: "/?location=Hybrid" },
+    { label: "Jobs in Bengaluru", href: "/?location=Bengaluru" },
+    { label: "Jobs in Noida", href: "/?location=Noida" },
+    { label: "Jobs in Gurgaon", href: "/?location=Gurgaon" },
+    { label: "Jobs in Delhi", href: "/?location=Delhi" },
+    { label: "Jobs in Pune", href: "/?location=Pune" },
+    { label: "Jobs in Mumbai", href: "/?location=Mumbai" },
+    { label: "Jobs in Hyderabad", href: "/?location=Hyderabad" },
   ];
 
   const jobsByBatch = [
-    { label: "Jobs for 2020 batch", href: "#" },
-    { label: "Jobs for 2021 batch", href: "#" },
-    { label: "Jobs for 2022 batch", href: "#" },
-    { label: "Jobs for 2023 batch", href: "#" },
-    { label: "Jobs for 2024 batch", href: "#" },
-    { label: "Jobs for 2025 batch", href: "#" },
+    { label: "Jobs for 2020 batch", href: "/?batch=2020" },
+    { label: "Jobs for 2021 batch", href: "/?batch=2021" },
+    { label: "Jobs for 2022 batch", href: "/?batch=2022" },
+    { label: "Jobs for 2023 batch", href: "/?batch=2023" },
+    { label: "Jobs for 2024 batch", href: "/?batch=2024" },
+    { label: "Jobs for 2025 batch", href: "/?batch=2025" },
   ];
 
   return (
@@ -141,12 +141,13 @@ const Footer = () => {
             <ul className="space-y-2">
               {jobsByType.map((item) => (
                 <li key={item.label}>
-                  <a
-                    href={item.href}
+                  <Link
+                    to={item.href}
                     className="text-sm text-muted-foreground hover:text-primary"
+                    onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                   >
                     {item.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -160,12 +161,13 @@ const Footer = () => {
             <ul className="space-y-2">
               {jobsByCategory.map((item) => (
                 <li key={item.label}>
-                  <a
-                    href={item.href}
+                  <Link
+                    to={item.href}
                     className="text-sm text-muted-foreground hover:text-primary"
+                    onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                   >
                     {item.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -179,12 +181,13 @@ const Footer = () => {
             <ul className="space-y-2">
               {jobsByLocation.map((item) => (
                 <li key={item.label}>
-                  <a
-                    href={item.href}
+                  <Link
+                    to={item.href}
                     className="text-sm text-muted-foreground hover:text-primary"
+                    onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                   >
                     {item.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -198,12 +201,13 @@ const Footer = () => {
             <ul className="space-y-2">
               {jobsByBatch.map((item) => (
                 <li key={item.label}>
-                  <a
-                    href={item.href}
+                  <Link
+                    to={item.href}
                     className="text-sm text-muted-foreground hover:text-primary"
+                    onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                   >
                     {item.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>

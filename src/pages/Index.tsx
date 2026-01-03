@@ -1,5 +1,5 @@
 // src/pages/Index.tsx
-import { useState, useMemo } from "react";
+import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query"; // Import useQuery
 import { supabase } from "@/lib/supabase"; // Import supabase client
 import { JobDetails } from "@/data/jobs"; // Import Type only
@@ -10,21 +10,45 @@ import WhatsAppCTA from "@/components/WhatsAppCTA";
 import Telegram from "@/components/Telegram";
 import Footer from "@/components/Footer";
 import { Loader2 } from "lucide-react"; // Optional: for loading state
+import { useSearchParams } from "react-router-dom";
 
 const fetchJobs = async (): Promise<JobDetails[]> => {
   const { data, error } = await supabase
     .from('jobs')
-    .select('*');
+    .select('*')
+    .order('id', { ascending: false }); // FIXED: Sort by ID descending
 
   if (error) throw error;
   return data || [];
 };
 
 const Index = () => {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [jobType, setJobType] = useState("");
-  const [batch, setBatch] = useState("");
-  const [location, setLocation] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  // Read state from URL parameters
+  const searchQuery = searchParams.get("search") || "";
+  const jobType = searchParams.get("type") || "";
+  const batch = searchParams.get("batch") || "";
+  const location = searchParams.get("location") || "";
+
+  // Helper to update URL parameters
+  const updateFilter = (key: string, value: string) => {
+    setSearchParams((prev) => {
+      const newParams = new URLSearchParams(prev);
+      if (value) {
+        newParams.set(key, value);
+      } else {
+        newParams.delete(key);
+      }
+      return newParams;
+    });
+  };
+
+  // Handlers compatible with HeroSection props
+  const setSearchQuery = (val: string) => updateFilter("search", val);
+  const setJobType = (val: string) => updateFilter("type", val);
+  const setBatch = (val: string) => updateFilter("batch", val);
+  const setLocation = (val: string) => updateFilter("location", val);
 
   // Use React Query to fetch data
   const { data: jobs = [], isLoading, error } = useQuery({
@@ -85,8 +109,6 @@ const Index = () => {
           </a>
         </div>
       </header>
-
-
 
       {/* Hero Section */}
       <HeroSection
