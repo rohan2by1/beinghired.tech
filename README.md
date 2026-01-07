@@ -1,3 +1,4 @@
+
 # Beinghired.tech 🚀
 
 Beinghired.tech is a modern job board application designed to connect students, freshers, and professionals with verified tech jobs, internships, and remote opportunities. The platform features a responsive, user-friendly interface for browsing and filtering job listings in real-time.
@@ -48,7 +49,7 @@ Ensure you have the following installed:
 
 1.  **Clone the repository:**
     ```bash
-    git clone [https://github.com/your-username/beinghired.tech.git](https://github.com/your-username/beinghired.tech.git)
+    git clone https://github.com/rohan2by1/beinghired.tech.git
     cd beinghired.tech
     ```
 
@@ -79,3 +80,35 @@ Start the development server:
 npm run dev
 # or
 bun run dev
+
+```
+
+Open [http://localhost:5173](https://www.google.com/search?q=http://localhost:5173) (or the port shown in your terminal) to view it in the browser.
+
+## 📜 Scripts
+
+* `dev`: Starts the development server using Vite.
+* `build`: Builds the app for production.
+* `preview`: Locally preview the production build.
+* `lint`: Runs ESLint to check for code quality issues.
+
+## 📂 Project Structure
+
+```
+src/
+├── components/     # Reusable UI components (HeroSection, JobCard, etc.)
+├── data/           # Static data and TypeScript interfaces
+├── hooks/          # Custom React hooks (use-mobile, etc.)
+├── lib/            # Utilities and library configurations (supabase.ts)
+├── pages/          # Application pages (Index, JobDetails, NotFound)
+└── App.tsx         # Main application component
+
+```
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+```
+
+```
