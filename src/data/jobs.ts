@@ -3,7 +3,7 @@ export interface JobDetails {
   id: number;
   title: string;
   company: string;
-  logo: string;
+  website: string;
   type: string;
   location?: string;
   experience?: string;

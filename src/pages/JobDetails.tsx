@@ -156,7 +156,7 @@ const JobDetails = () => {
             <div className="flex items-start justify-between mb-6">
               <div className="w-20 h-20 rounded-lg bg-secondary flex items-center justify-center overflow-hidden">
                 <img
-                  src={job.logo}
+                  src={job.website}
                   alt={`${job.company} logo`}
                   className="w-full h-full object-cover"
                   onError={(e) => {

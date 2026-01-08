@@ -9,7 +9,7 @@ interface Job {
   id: number;
   title: string;
   company: string;
-  logo: string;
+  website: string;
   type: string;
   location?: string;
   experience?: string;
@@ -60,7 +60,7 @@ const JobCard = ({ job, index }: JobCardProps) => {
         <div className="flex items-start gap-4">
           <div className="w-14 h-14 rounded-full bg-secondary flex items-center justify-center overflow-hidden flex-shrink-0">
             <img 
-              src={job.logo} 
+              src={job.website} 
               alt={`${job.company} logo`}
               className="w-full h-full object-cover"
               onError={(e) => {
