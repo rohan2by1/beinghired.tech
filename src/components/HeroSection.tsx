@@ -30,7 +30,7 @@ const HeroSection = ({
   return (
     <section className="hero-gradient py-12 md:py-16 relative overflow-hidden">
       <div className="container mx-auto px-4 lg:px-8">
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
+        <div className="pl-4 flex flex-col lg:flex-row items-center justify-between gap-8">
           <div className="flex-1 max-w-2xl">
             {/* Badge */}
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
