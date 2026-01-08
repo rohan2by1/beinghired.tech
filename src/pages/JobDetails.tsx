@@ -157,24 +157,49 @@ const logoUrl = job ? getCompanyLogo(job.website) : null;
           <div className="flex-1">
             
             {/* Company Header */}
+          {/* Company Header */}
             <div className="flex items-start justify-between mb-6">
-              
-             <div className="w-20 h-20 rounded-lg bg-secondary flex items-center justify-center overflow-hidden">
-              {logoUrl ? (
-                <img
-                  src={logoUrl}
-                  alt={`${job.company} logo`}
-                  className="w-full h-full object-cover"
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    target.style.display = "none";
-                    target.parentElement!.innerHTML = `<span class="text-2xl font-bold text-foreground">${job.company[0]}</span>`;
-                  }}
-                />
+              {/* WRAPPER START: Check if website exists, then wrap in <a> tag */}
+              {job.website ? (
+                <a 
+                  href={job.website.startsWith('http') ? job.website : `https://${job.website}`} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="hover:opacity-80 transition-opacity" // Add hover effect
+                >
+                  <div className="w-20 h-20 rounded-lg bg-secondary flex items-center justify-center overflow-hidden border border-border">
+                    {logoUrl ? (
+                      <img
+                        src={logoUrl}
+                        alt={`${job.company} logo`}
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.style.display = "none";
+                          target.parentElement!.innerHTML = `<span class="text-2xl font-bold text-foreground">${job.company[0]}</span>`;
+                        }}
+                      />
+                    ) : (
+                      <span className="text-2xl font-bold text-foreground">{job.company[0]}</span>
+                    )}
+                  </div>
+                </a>
               ) : (
-                <span className="text-2xl font-bold text-foreground">{job.company[0]}</span>
+                // Fallback: Just the div if no website is available
+                <div className="w-20 h-20 rounded-lg bg-secondary flex items-center justify-center overflow-hidden border border-border">
+                   {logoUrl ? (
+                      <img
+                        src={logoUrl}
+                        alt={`${job.company} logo`}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <span className="text-2xl font-bold text-foreground">{job.company[0]}</span>
+                    )}
+                </div>
               )}
-            </div>
+              {/* WRAPPER END */}
+
               <Button variant="outline" onClick={handleShare} className="gap-2">
                 Share job
                 <Share2 className="w-4 h-4" />
