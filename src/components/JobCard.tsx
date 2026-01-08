@@ -64,7 +64,7 @@ const JobCard = ({ job, index }: JobCardProps) => {
               <img 
                 src={logoUrl} 
                 alt={`${job.company} logo`}
-                className="w-full h-full object-cover brightness-110 contrast-110"
+                className="w-full h-full object-cover brightness-120 contrast-110"
                 onError={(e) => {
                   // Fallback if the API fails
                   const target = e.target as HTMLImageElement;
