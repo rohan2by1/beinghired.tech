@@ -13,9 +13,9 @@ interface HeroSectionProps {
   onLocationChange: (value: string) => void;
 }
 
-const jobTypes = ["Internship", "Full time"];
+const jobTypes = ["Internship", "FTE", "Intern-to-FTE"];
 const batches = ["2020 graduates", "2021 graduates", "2022 graduates", "2023 graduates", "2024 graduates", "2025 graduates", "2026 graduates"];
-const locations = ["Gurgaon", "Noida", "Delhi", "Bengaluru", "Pune", "Mumbai", "Hyderabad", "Remote"];
+const locations = ["Remote", "Gurgaon", "Noida", "Delhi", "Bengaluru", "Pune", "Mumbai", "Hyderabad", "Kolkata"];
 
 const HeroSection = ({
   searchQuery,
