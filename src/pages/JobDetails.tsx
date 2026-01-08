@@ -172,7 +172,7 @@ const logoUrl = job ? getCompanyLogo(job.website) : null;
                       <img
                         src={logoUrl}
                         alt={`${job.company} logo`}
-                        className="w-full h-full object-cover brightness-125 contrast-110"
+                        className="w-full h-full object-cover brightness-110 contrast-110"
                         onError={(e) => {
                           const target = e.target as HTMLImageElement;
                           target.style.display = "none";
