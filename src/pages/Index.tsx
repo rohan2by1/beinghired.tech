@@ -1,22 +1,32 @@
 // src/pages/Index.tsx
 import { useMemo } from "react";
-import { useQuery } from "@tanstack/react-query"; // Import useQuery
-import { supabase } from "@/lib/supabase"; // Import supabase client
-import { JobDetails } from "@/data/jobs"; // Import Type only
-import Logo from "@/components/Logo";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/lib/supabase";
+import { JobDetails } from "@/data/jobs";
 import HeroSection from "@/components/HeroSection";
 import JobCard from "@/components/JobCard";
 import WhatsAppCTA from "@/components/WhatsAppCTA";
 import Telegram from "@/components/Telegram";
 import Footer from "@/components/Footer";
-import { Loader2 } from "lucide-react"; // Optional: for loading state
+import { Loader2 } from "lucide-react";
 import { useSearchParams } from "react-router-dom";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+
+const ITEMS_PER_PAGE = 10;
 
 const fetchJobs = async (): Promise<JobDetails[]> => {
   const { data, error } = await supabase
     .from('jobs')
     .select('*')
-    .order('id', { ascending: false }); // FIXED: Sort by ID descending
+    .order('id', { ascending: false });
 
   if (error) throw error;
   return data || [];
@@ -30,6 +40,8 @@ const Index = () => {
   const jobType = searchParams.get("type") || "";
   const batch = searchParams.get("batch") || "";
   const location = searchParams.get("location") || "";
+  // Get current page, default to 1
+  const currentPage = parseInt(searchParams.get("page") || "1", 10);
 
   // Helper to update URL parameters
   const updateFilter = (key: string, value: string) => {
@@ -40,8 +52,20 @@ const Index = () => {
       } else {
         newParams.delete(key);
       }
+      // Reset to page 1 whenever a filter changes
+      newParams.delete("page");
       return newParams;
     });
+  };
+
+  const setPage = (page: number) => {
+    setSearchParams((prev) => {
+      const newParams = new URLSearchParams(prev);
+      newParams.set("page", page.toString());
+      return newParams;
+    });
+    // Scroll to top of job list
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   // Handlers compatible with HeroSection props
@@ -65,7 +89,6 @@ const Index = () => {
 
       const matchesJobType = jobType === "" || job.type === jobType;
 
-      // Batch matching: support selection like "2023 graduates" and job.batch values like "2025 / 2024 / 2023"
       const matchesBatch = (() => {
         if (batch === "") return true;
         if (!job.batch) return false;
@@ -73,7 +96,6 @@ const Index = () => {
         if (yearMatch) {
           return job.batch.includes(yearMatch[1]);
         }
-        // fallback: substring match (case-insensitive)
         return job.batch.toLowerCase().includes(batch.toLowerCase());
       })();
 
@@ -83,7 +105,6 @@ const Index = () => {
         const loc = location.toLowerCase();
         const jobLoc = job.location.toLowerCase();
         if (jobLoc.includes(loc)) return true;
-        // Treat 'Remote' selection as match for 'work from home' descriptions
         if (loc === "remote" && jobLoc.includes("work from home")) return true;
         return false;
       })();
@@ -91,6 +112,34 @@ const Index = () => {
       return matchesSearch && matchesJobType && matchesBatch && matchesLocation;
     });
   }, [searchQuery, jobType, batch, location, jobs]);
+
+  // --- PAGINATION LOGIC ---
+  const totalPages = Math.ceil(filteredJobs.length / ITEMS_PER_PAGE);
+  const paginatedJobs = filteredJobs.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
+
+  // Helper to generate page numbers with ellipsis
+  const getPageNumbers = () => {
+    const pages = [];
+    for (let i = 1; i <= totalPages; i++) {
+      if (
+        i === 1 ||
+        i === totalPages ||
+        (i >= currentPage - 1 && i <= currentPage + 1)
+      ) {
+        pages.push(i);
+      } else if (
+        (i === currentPage - 2 && i > 1) ||
+        (i === currentPage + 2 && i < totalPages)
+      ) {
+        pages.push("...");
+      }
+    }
+    // Remove duplicates (in case logic adds "..." multiple times or overlaps)
+    return [...new Set(pages)];
+  };
 
   if (error) {
     return <div className="p-8 text-center text-red-500">Error loading jobs. Please try again later.</div>;
@@ -120,6 +169,7 @@ const Index = () => {
         onBatchChange={setBatch}
         location={location}
         onLocationChange={setLocation}
+        
       />
 
       {/* Main Content */}
@@ -137,7 +187,8 @@ const Index = () => {
               </div>
             ) : (
               <div className="space-y-4">
-                {filteredJobs.map((job, index) => (
+                {/* Render PAGINATED jobs, not all filtered jobs */}
+                {paginatedJobs.map((job, index) => (
                   <JobCard key={job.id} job={job} index={index} />
                 ))}
 
@@ -150,6 +201,55 @@ const Index = () => {
                 )}
               </div>
             )}
+
+            {/* Pagination UI */}
+            {!isLoading && totalPages > 1 && (
+              <Pagination className="mt-8">
+                <PaginationContent>
+                  <PaginationItem>
+                    <PaginationPrevious 
+                      href="#"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        if (currentPage > 1) setPage(currentPage - 1);
+                      }}
+                      className={currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                    />
+                  </PaginationItem>
+
+                  {getPageNumbers().map((pageNumber, idx) => (
+                    <PaginationItem key={idx}>
+                      {pageNumber === "..." ? (
+                        <PaginationEllipsis />
+                      ) : (
+                        <PaginationLink
+                          href="#"
+                          isActive={currentPage === pageNumber}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setPage(pageNumber as number);
+                          }}
+                        >
+                          {pageNumber}
+                        </PaginationLink>
+                      )}
+                    </PaginationItem>
+                  ))}
+
+                  <PaginationItem>
+                    <PaginationNext 
+                      href="#"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        if (currentPage < totalPages) setPage(currentPage + 1);
+                      }}
+                      className={currentPage === totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                    />
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
+            )}
+
           </div>
 
           {/* Sidebar */}
