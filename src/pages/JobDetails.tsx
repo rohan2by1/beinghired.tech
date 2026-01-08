@@ -22,6 +22,7 @@ import Footer from "@/components/Footer";
 import JobCard from "@/components/JobCard";
 import { toast } from "sonner";
 import { JobDetails as JobDetailsType } from "@/data/jobs";
+import { getCompanyLogo } from "@/lib/utils";
 
 // --- Fetcher Functions ---
 
@@ -104,6 +105,9 @@ const JobDetails = () => {
     );
   }
 
+
+  // Get the logo
+const logoUrl = job ? getCompanyLogo(job.website) : null;
   // --- Error or Not Found State ---
   if (jobError || !job) {
     return (
@@ -154,9 +158,11 @@ const JobDetails = () => {
             
             {/* Company Header */}
             <div className="flex items-start justify-between mb-6">
-              <div className="w-20 h-20 rounded-lg bg-secondary flex items-center justify-center overflow-hidden">
+              
+             <div className="w-20 h-20 rounded-lg bg-secondary flex items-center justify-center overflow-hidden">
+              {logoUrl ? (
                 <img
-                  src={job.website}
+                  src={logoUrl}
                   alt={`${job.company} logo`}
                   className="w-full h-full object-cover"
                   onError={(e) => {
@@ -165,7 +171,10 @@ const JobDetails = () => {
                     target.parentElement!.innerHTML = `<span class="text-2xl font-bold text-foreground">${job.company[0]}</span>`;
                   }}
                 />
-              </div>
+              ) : (
+                <span className="text-2xl font-bold text-foreground">{job.company[0]}</span>
+              )}
+            </div>
               <Button variant="outline" onClick={handleShare} className="gap-2">
                 Share job
                 <Share2 className="w-4 h-4" />

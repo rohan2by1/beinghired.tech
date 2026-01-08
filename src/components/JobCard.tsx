@@ -4,7 +4,7 @@ import { MapPin, Briefcase, Eye, Share2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-
+import { getCompanyLogo } from "@/lib/utils";
 interface Job {
   id: number;
   title: string;
@@ -38,6 +38,7 @@ function formatPostedDate(isoDate) {
 
 
 const JobCard = ({ job, index }: JobCardProps) => {
+  const logoUrl = getCompanyLogo(job.website);
   const handleShare = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -59,16 +60,22 @@ const JobCard = ({ job, index }: JobCardProps) => {
       >
         <div className="flex items-start gap-4">
           <div className="w-14 h-14 rounded-full bg-secondary flex items-center justify-center overflow-hidden flex-shrink-0">
-            <img 
-              src={job.website} 
-              alt={`${job.company} logo`}
-              className="w-full h-full object-cover"
-              onError={(e) => {
-                const target = e.target as HTMLImageElement;
-                target.style.display = 'none';
-                target.parentElement!.innerHTML = `<span class="text-lg font-semibold text-foreground">${job.company[0]}</span>`;
-              }}
-            />
+            {logoUrl ? (
+              <img 
+                src={logoUrl} 
+                alt={`${job.company} logo`}
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  // Fallback if the API fails
+                  const target = e.target as HTMLImageElement;
+                  target.style.display = 'none';
+                  target.parentElement!.innerHTML = `<span class="text-lg font-semibold text-foreground">${job.company[0]}</span>`;
+                }}
+              />
+            ) : (
+              // Fallback if no website is in DB
+              <span className="text-lg font-semibold text-foreground">{job.company[0]}</span>
+            )}
           </div>
           
           <div className="flex-1 min-w-0">
