@@ -17,12 +17,14 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge"; // Kept if you use it, though not strictly used in the template below
 import Logo from "@/components/Logo";
 import WhatsAppCTA from "@/components/WhatsAppCTA";
-import Telegram from "@/components/Telegram";
+import TelegramCTA from "@/components/TelegramCTA";
+import InstagramCTA from "@/components/InstagramCTA";
 import Footer from "@/components/Footer";
 import JobCard from "@/components/JobCard";
 import { toast } from "sonner";
 import { JobDetails as JobDetailsType } from "@/data/jobs";
 import { getCompanyLogo } from "@/lib/utils";
+
 
 // --- Fetcher Functions ---
 
@@ -344,7 +346,8 @@ const logoUrl = job ? getCompanyLogo(job.website) : null;
           {/* Sidebar */}
           <aside className="lg:w-80 flex-shrink-0 block mb-2 space-y-4">
             <WhatsAppCTA />
-            <Telegram />
+            <TelegramCTA />
+            <InstagramCTA />
           </aside>
         </div>
       </main>

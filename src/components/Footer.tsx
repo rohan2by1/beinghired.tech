@@ -63,15 +63,15 @@ const Footer = () => {
                   icon: <FaInstagram size={18} />,
                 },
                 {
-                  href: "https://t.me/beinghiredtech",
+                  href: "https://t.me/beinghired",
                   icon: <FaTelegramPlane size={18} />,
                 },
                 {
-                  href: "https://linkedin.com/company/beinghired-tech",
+                  href: "https://linkedin.com/company/beinghired",
                   icon: <FaLinkedinIn size={18} />,
                 },
                 {
-                  href: "https://chat.whatsapp.com/",
+                  href: "https://whatsapp.com/channel/0029Vb78Bt31SWswoR72SU18",
                   icon: <FaWhatsapp size={18} />,
                 },
               ].map((item, index) => (
