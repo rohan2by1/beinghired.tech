@@ -152,9 +152,9 @@ const Index = () => {
       <header className="hero-gradient py-4 border-b">
         <div className="container mx-auto flex items-center pl-2 pr-4 lg:pl-4 lg:pr-8">
           <a href="/" className="inline-flex items-center gap-0 text-xl font-bold">
-            <span className="text-foreground">Beinghired@</span>
+            <span className="text-foreground">Being</span>
             <span className="bg-primary text-primary-foreground px-1.5 py-0.5 rounded">
-              tech
+              Hired
             </span>
           </a>
         </div>
