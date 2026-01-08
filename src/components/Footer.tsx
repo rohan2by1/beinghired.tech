@@ -99,12 +99,15 @@ const Footer = () => {
             <ul className="space-y-2">
               <li>
                 <a
-                  href="mailto:rohan2by1@gmail.com"
+                  href="https://mail.google.com/mail/?view=cm&fs=1&to=rohan2by1@gmail.com"
+                  target="_blank"
+                  rel="noreferrer"
                   className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary"
                 >
                   <Mail className="w-4 h-4" />
                   Contact us
                 </a>
+
               </li>
               <li>
                 <a
