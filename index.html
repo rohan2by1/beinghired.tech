@@ -36,6 +36,23 @@
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="/favicon.png" />
 
+  <!-- INLINE CSS (CRITICAL FOR SPA SEO FIX) -->
+  <style>
+    /* SEO static content:
+       - Invisible to users
+       - Readable by search engines
+       - Applied BEFORE first paint */
+    .seo-static {
+      position: absolute;
+      left: -9999px;
+      top: auto;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+  </style>
+
   <!-- Structured Data -->
   <script type="application/ld+json">
   {
@@ -53,7 +70,7 @@
 </head>
 
 <body>
-  <!-- SEO STATIC CONTENT (CRITICAL - HIDDEN VISUALLY, READABLE BY GOOGLE) -->
+  <!-- SEO STATIC CONTENT (CRAWLABLE, NOT VISIBLE) -->
   <header class="seo-static">
     <h1>Tech Jobs for Developers, Designers & Engineers</h1>
     <p>
@@ -82,10 +99,10 @@
     </section>
   </main>
 
-  <!-- React Mount -->
+  <!-- React App Mount -->
   <div id="root"></div>
 
-  <!-- App Script -->
+  <!-- Vite Entry -->
   <script type="module" src="/src/main.tsx"></script>
 </body>
 </html>
