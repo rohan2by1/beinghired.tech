@@ -18,7 +18,7 @@ export function getCompanyLogo(website: string | undefined | null) {
       .split('/')[0];
 
     // 2. Return the new API URL
-    return `https://logos-api.apistemic.com/domain:${domain}`;
+    return `https://img.logo.dev/${domain}?token=pk_V60cLc0-Q6-_4YwbhD6d3g`;
   } catch (e) {
     return null;
   }
